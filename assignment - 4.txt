@@ -1,0 +1,27 @@
+Basic CRUD :-
+1. Create and insert :-
+ db.createCollection("Students")
+ db.Students.insertMany([{name: "Alex", age: 15, grade: "A"}, {name: "Emily", age: 15, grade: "B"}, {name: "Tom", age: 21, grade: "C"}, {name: "Soma", age: 19, grade: "C"}, {name: "John", age: 17, grade: "C"}, {name: "Alexia", age: 19, grade: "B"}, {name: "Sam", age: 19, grade: "B"}])
+
+2. Find documents :-
+db.Students.find()
+
+3. Find documents(specific criteria age>18) :-
+db.Students.find({age: {$gt: 18}})
+
+4. Find documents(specific criteria 18<age<23) :-
+ db.Students.find({age: {$gt: 18, $lt: 23}})
+
+5. Update :-
+ db.Students.updateOne({name: "John"}, {$set:{grade: "A"}})
+
+6. Delete :-
+db.Students.deleteOne({name: "Emily"})
+
+Advanced Operations :-
+1. Count no. of documents(with grade B) :-
+ db.Students.countDocuments({grade: "B"})
+2. Use projection :-
+ db.Students.find({},{name: 1, grade: 1, _id:0})
+3. Sort documents(descending order) :-
+ db.Students.find().sort({"age":-1})

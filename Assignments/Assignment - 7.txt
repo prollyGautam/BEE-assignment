@@ -1,0 +1,29 @@
+1. Filter products by price range and stock :-
+ db.products.find({$and: [{price: {$gte: 20, $lte: 100}}, {stock: {$gt: 0}}]})
+
+2. Qualified students for scholarship :-
+ db.students.find({$and: [{grade: {$gt: 85}}, {$or: [{attendance: {$90}}, {age: {$lt: 18}}]}]})
+
+3. Filter jobs by salary and location :-
+ db.jobs.find({$and: [{salary: {$gt: 50000}}, {$or: [{location: "San Francisco"}, {location: "New York"}]}]})
+
+4. Available electronics with discount :-
+ db.inventory.find({$and: [{category: "electronics"}, {discount: {$gte: 10}}, {stock: {$gt: 0}}]})
+
+5. Identify pending orders for VIP customers :-
+ db.orders.find({$and: [{status: "pending"}, {$or: [{customer_type: "VIP"}, {amount: {$gt: 500}}]}]})
+
+6. Find students exceeding both age and grade limits :-
+ db.students.find({$and: [{age: {$gt: 18}}, {$or: [{grade: {$lt: 60}}, {attendence: {$lt: 75}}]}]})
+
+7. Special offers on furniture :-
+ db.products.find({$or: [{price: {$lt: 200}}, {stock: {$lt: 5}}]})
+
+8. Available software and services :-
+ db.items.find({$and: [{price: {$lt: 100}}, {$or: [{type: "software"}, {type: "service"}]}]})
+
+9. Filter employees by experience or department :-
+ db.employees.find({$and: [{experience: {$gt: 5}}, {$or: [{department: "Engineering"}, {department: "HR"}]}]})
+
+10. Urgent orders for high-value products :-
+ db.orders.find({$and: [{status: "urgent"}, {$or: [{total_amount: {$gt: 1000}}, {priority: "high"}]}]})

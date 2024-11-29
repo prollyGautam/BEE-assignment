@@ -1,0 +1,30 @@
+1. Basic lookup with matching criteria :-
+ db.students.aggregate([{$lookup: {from: "courses",localField: "course_id",foreignField: "_id",as: "courseDetails"}},{$unwind: "$courseDetails"},{$project: {name: 1, course_name: "$courseDetails.course_name"}}])
+
+2. Filtering with match :-
+ db.students.aggregate([{$match: {score: {$gt: 75}}}])
+
+3. Lookup with multiple conditions :-
+ db.orders.aggregate([{$lookup: {"from": "customers", "localField": "customerId", "foreignField": "_id", "as": "customerDetails"}}, {$unwind: "$customerDetails"}, {$match: {amount: {$gt: 500}, "customerDetails.location": "New York"}}])
+
+4. Multistage aggregation :-
+db.sales.aggregate([{$lookup: {"from": "products", "localField": "productId", "foreignField": "_id", "as": "productDetails"}}, {$unwind: "$productDetails"}, {$match: {"productDetails.price": {$gt: 20}}}, {$group: {_id: "$productId", totalRevenue: {$sum: {$multiply: ["$quantity", "$productDetails.price"]}}}}])
+
+5. Using $in operator
+db.employees.aggregate([{$match: {department: {$in: ["HR", "Engineering", "Marketing"]}}}])
+
+6. Advanced filtering with $or operator
+db.transactions.aggregate([{$match: {$or: [{type: "credit"}, {amount: {$gt: 1000}}]}}])
+
+7. Combining $lookup and $ne operator
+db.orders.aggregate([{$lookup: {"from": "customers", "localField": "customerId", "foreignField": "_id", "as": "customerDetails"}}, {$unwind: "$customerDetails"}, {$match: {"customerDetails.membership": {$ne: "premium"}}}])
+
+8. Multilevel lookup
+db.students.aggregate([{$lookup: {"from": "courses", "localField": "courseId", "foreignField": "_id", "as": "courseDetails"}}, {$unwind: "$courseDetails"}, {$lookup: {"from": "instructors", "localField": "courseDetails.instructorId", "foreignField": "_id", "as": "instructorDetails"}}, {$unwind: "$instructorDetails"}, {$project: {studentName: "$name", courseName: "$courseDetails.course_name", instructorName: "$instructorDetails.name"}}])
+
+9. Conditional lookup with $gte
+db.purchases.aggregate([{$lookup: {"from": "customers", "localField": "customerId", "foreignField": "_id", "as": "customerDetails"}}, {$unwind: "$customerDetails"}, {$match: {"customerDetails.loyaltyPoints": {$gte: 1000}}}])
+
+10. Using $and in a complex condition
+db.products.aggregate([{$match: {$and: [{category: "electronics"}, {price: {$lt: 500}}, {stock: {$gt: 10}}]}}])
+

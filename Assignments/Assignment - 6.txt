@@ -1,0 +1,29 @@
+1. Find eligible employees :-
+ db.employees.find({$or: [{age: {$gt: 30}}, {experience: {$gt: 5}}]})
+
+2. Verify product stock and price :-
+ db.products.find({$and: [{stock: {$gt: 0}}, {price: {$lt: 50}}]})
+
+3. Check student enrollment :-
+ db.students.find({$or: [{enrolled: false}, {grade: {$lt: "C"}}]})
+
+4. Filter courses with duration and instructor :-
+ db.courses.find({$or: [{duration: {$lt: 6}}, {instructor: {$exists: false}}]})
+
+5. Locate absent orders :-
+ db.orders.find({$or: [{status: {$ne: "shipped"}}, {shipped_date: {$exists: false}}]})
+
+6. Find non-engineering employees :-
+ db.employees.find({department: {$nin: ["Engineering", "IT"]}}, {name: 1, department: 1, _id: 0})
+
+7. Check student exam eligibility :-
+ db.students.find({$and: [{exam_score: {$lt: 50}}, {participation: false}]})
+
+8. Mixed department filter :-
+ db.employees.find({department: "Sales", $or: [{experience: {$gt: 3}}, {age: {$lt: 25}}]})
+
+9. Inventory check :-
+ db.inventory.find({$or: [{price: {$exists: true, $lt: 100}}, {stock: {$exists: false}}]})
+
+10. Uncommon courses :-
+ db.courses.find({$nor: [{instructor: "John Smith"}, {duration: {$gt: 10}}]})

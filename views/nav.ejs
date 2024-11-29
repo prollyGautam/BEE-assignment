@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nav Bar</title>
+    <style>
+        a{
+            text-decoration: none;
+            color: #000;
+            margin: 7px;
+        }
+    </style>
+</head>
+<body>
+    <a href="/">Home</a>
+    <% if(isLoggedIn){ %>
+        <a href="/profile">Profile</a>
+            <form action="/logout" method="post" style="display:inline;">
+                <button type="submit">Logout</button>
+            </form>
+        <% }else{ %>
+            <a href="/login">Login</a>
+        <% } %>
+        <hr>
+    <% if(isLoggedIn && currUser){ %>
+        <p>Welcome, <%= currUser %>!</p>
+    <% } %>
+</body>
+</html>
