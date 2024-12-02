@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Manager</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+    }
+    .task {
+      padding: 10px;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+    .task.completed {
+      background-color: #d4edda;
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+    }
+    input, button {
+      padding: 8px;
+      margin: 5px 0;
+      width: 100%;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Task Manager</h1>
+
+    <!-- Signup Section -->
+    <div id="signup-section">
+      <h2>Sign Up</h2>
+      <input type="text" id="signup-username" placeholder="Username" />
+      <input type="password" id="signup-password" placeholder="Password" />
+      <button id="signup-btn">Sign Up</button>
+    </div>
+
+    <!-- Login Section -->
+    <div id="login-section">
+      <h2>Login</h2>
+      <input type="text" id="login-username" placeholder="Username" />
+      <input type="password" id="login-password" placeholder="Password" />
+      <button id="login-btn">Login</button>
+    </div>
+
+    <!-- Task Section -->
+    <div id="task-section" class="hidden">
+      <h2>Tasks</h2>
+      <input type="text" id="task-title" placeholder="Task Title" />
+      <input type="text" id="task-description" placeholder="Task Description" />
+      <button id="add-task-btn">Add Task</button>
+      <div id="task-list"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
