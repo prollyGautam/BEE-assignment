@@ -1,43 +1,54 @@
-1. /*CREATE TABLE Books (
+1. 
+   /*CREATE TABLE Books (
     Book_id INT PRIMARY KEY,
     Title VARCHAR(100),            
     Author VARCHAR(100),           
     Genre VARCHAR(100),                     
     Publicationyear INT                 
   );*/
+
  /* ALTER TABLE Books 
   ADD COLUMN ISBN VARCHAR(13);
   */
+
   /*ALTER TABLE Books
   DROP COLUMN Publicationyear;*/
-  
- 2. /* CREATE TABLE Students (
+
+------------------ 
+ 
+ 2.
+   /* CREATE TABLE Students (
     StudentID INT PRIMARY KEY,   
     Name VARCHAR(255) NOT NULL, 
     Age INT,                   
     Grade VARCHAR(5)            
-);*/
-/*INSERT INTO Students (StudentID, Name, Age, Grade)
-VALUES
+    );*/
+
+    /*INSERT INTO Students (StudentID, Name, Age, Grade)
+     VALUES
     (101, 'John Smith', 15, 'A'),
     (102, 'Jane Doe', 16, 'B'),
     (103, 'Alice Lee', 14, 'A');*/
     
     /*SELECT Name
-FROM Students
-WHERE Age > 15;*/
+    FROM Students
+    WHERE Age > 15;*/
 
-/*INSERT INTO Students (StudentID, Name, Age, Grade)
-VALUES (104, 'Tom Brown', 15, 'C');*/
+   /*INSERT INTO Students (StudentID, Name, Age, Grade)
+   VALUES (104, 'Tom Brown', 15, 'C');*/
 
-/*UPDATE Students
-SET Grade = 'A+'
-WHERE Name = 'Jane Doe';*/
+  /*UPDATE Students
+  SET Grade = 'A+'
+   WHERE Name = 'Jane Doe';*/
 
-/*DELETE FROM Students
-WHERE Grade = 'C';*/
+  /*DELETE FROM Students
+  WHERE Grade = 'C';*/
+
+------------------
 
 3. skipped
+
+---------------
 
 4. /*BEGIN ;
 INSERT INTO Orders (order_id, customer_id, amount)
@@ -47,6 +58,7 @@ UPDATE Inventory
 SET Quantity = Quantity - 2
 WHERE ProductID = 105 AND Quantity >= 2;
 
+-------------------------
 
 5. CREATE TABLE Customers (
     CustomerID INT PRIMARY KEY,  
@@ -59,6 +71,8 @@ VALUES (201, 'Emily Clark', 'emily@example.com', '1234567890');
 
 GRANT SELECT ON Customers TO 'AdminUser';
 ROLLBACK;
+
+-----------------------
 
 6. /*CREATE TABLE Employees (
     EmployeeID INT PRIMARY KEY,          
@@ -82,3 +96,94 @@ DROP COLUMN Salary;*/
 /*ALTER TABLE Employees
 ADD COLUMN DeptID INT,
 ADD CONSTRAINT fk_DeptID FOREIGN KEY (DeptID) REFERENCES Departments(DeptID);*/
+
+
+------------------
+
+ 7.
+
+	INSERT INTO Employees (EmployeeID, Name, Department, Salary)
+	VALUES (1, 'Alice', 'HR', 50000);
+
+	SELECT * 
+	FROM Employees
+	WHERE Department = 'HR';
+
+	UPDATE Employees
+	SET Salary = Salary * 1.1
+	WHERE Department = 'IT';
+
+	DELETE FROM Employees
+	WHERE Salary < 40000;
+
+	MERGE INTO Employees AS Target
+	USING (VALUES(1,'Alice','HR',55000)) AS Source (EmployeeID,Name,Department,Salary)
+	ON Target.EmployeeID = Source.EmployeeID
+	WHEN MATCHED THEN
+    	UPDATE SET Salary = Source.Salary
+	WHEN NOT MATCHED THEN
+    	INSERT (EmployeeID, Name, Department, Salary)
+   	VALUES (Source.EmployeeID, Source.Name, Source.Department, Source.Salary);
+
+-----------------------
+
+ 8.
+
+	GRANT SELECT, UPDATE ON Employees TO HRManager;
+
+	REVOKE UPDATE ON Employees FROM HRManager;
+
+	CREATE ROLE DataViewer;
+	GRANT SELECT ON ALL TABLES TO DataViewer;
+
+	GRANT DataViewer TO Viewer1;
+
+	REVOKE ALL PRIVILEGES ON ALL TABLES FROM InternUser;
+
+-----------------------
+
+ 9.
+
+	BEGIN TRANSACTION;
+	INSERT INTO Departments (DeptID, DeptName)
+	VALUES (1, 'Finance');
+
+	COMMIT;
+
+	BEGIN TRANSACTION;
+	INSERT INTO Departments (DeptID, DeptName)
+	VALUES (2, 'IT');
+	IF @@ERROR != 0
+    		ROLLBACK;
+	ELSE
+    		COMMIT;
+
+	BEGIN TRANSACTION;
+	SAVEPOINT BeforeInsert;
+	INSERT INTO Employees (EmployeeID, Name, Department, Salary)
+	VALUES (2, 'Bob', 'Finance', 45000);
+	IF @@ERROR != 0
+    		ROLLBACK TO BeforeInsert;
+	COMMIT;
+
+-----------------------
+
+ 10.
+
+	CREATE TABLE Projects (
+    	ProjectID INT PRIMARY KEY,
+    	ProjectName VARCHAR(50),
+    	EmployeeID INT,
+    	FOREIGN KEY (EmployeeID) REFERENCES Employees(EmployeeID)
+	);
+
+	INSERT INTO Projects (ProjectID, ProjectName, EmployeeID)
+	VALUES (101, 'Website Upgrade', 1);
+
+	BEGIN TRANSACTION;
+	INSERT INTO Projects (ProjectID, ProjectName, EmployeeID)
+	VALUES (102, 'Mobile App Development', 2);
+	IF @@ERROR != 0
+    		ROLLBACK;
+	ELSE
+   		COMMIT;
