@@ -1,0 +1,88 @@
+1.   
+   a. CREATE TABLE Students (
+      StudentID INT PRIMARY KEY,
+      Name VARCHAR(50) NOT NULL,
+      Age INT CHECK (Age BETWEEN 18 AND 25),
+      Grade DECIMAL(3, 1) CHECK (Grade BETWEEN 0.0 AND 10.0)
+      );
+
+   b. INSERT INTO Students (StudentID, Name, Age, Grade) VALUES (1, 'John Doe', 26, 9.5);
+
+      INSERT INTO Students (StudentID, Name, Age, Grade) VALUES (2, 'Jane Smith', 22, 11.0);
+    
+   
+2.  
+    a.  CREATE TABLE Courses (
+        CourseID INT PRIMARY KEY,
+        CourseName VARCHAR(100),
+        Credits INT NOT NULL
+        );
+
+    b.  INSERT INTO Courses (CourseName, Credits) VALUES ('Database Systems', 3);
+ 
+3.  
+
+   a.  CREATE TABLE Products (
+       ProductID INT PRIMARY KEY,
+       ProductName VARCHAR(100)
+       );
+
+       CREATE TABLE Orders (
+       OrderID INT PRIMARY KEY,
+       ProductID INT,
+       OrderQuantity INT,
+       CONSTRAINT FK_Orders_ProductID FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+       );
+     
+   b.   INSERT INTO Orders (OrderID, ProductID, OrderQuantity) VALUES (1, 999, 10);
+   
+   c.   
+      INSERT INTO Products (ProductID, ProductName) VALUES (101, 'Laptop');
+      INSERT INTO Products (ProductID, ProductName) VALUES (102, 'Smartphone');
+
+ 
+      INSERT INTO Orders (OrderID, ProductID, OrderQuantity) VALUES (1, 101, 5);
+      INSERT INTO Orders (OrderID, ProductID, OrderQuantity) VALUES (2, 102, 3);
+
+
+4.     
+     a.   CREATE TABLE Employees (
+          EmployeeID INT PRIMARY KEY,
+          Name VARCHAR(100) NOT NULL,
+          Email VARCHAR(100) UNIQUE,
+          JobTitle VARCHAR(50) NOT NULL
+          );
+     
+      b.  INSERT INTO Employees (EmployeeID, Name, Email, JobTitle) VALUES (1, 'Alice', 'alice@example.com', 'Developer');
+          INSERT INTO Employees (EmployeeID, Name, Email, JobTitle) VALUES (2, 'Bob', 'alice@example.com', 'Analyst');
+       
+      c.  INSERT INTO Employees (EmployeeID, Name, JobTitle) VALUES (3, 'Charlie', 'Contractor');
+
+
+5.     
+        
+      a.   CREATE TABLE Accounts (
+           AccountID INT PRIMARY KEY,
+           MobileNumber VARCHAR(10) NOT NULL CHECK (LEN(MobileNumber) = 10),
+           Balance DECIMAL(10, 2) CHECK (Balance >= 0)
+           );
+
+           CREATE TABLE Transactions (
+           TransactionID INT PRIMARY KEY,
+           AccountID INT NOT NULL,
+           TransactionAmount DECIMAL(10, 2) CHECK (TransactionAmount <> 0),
+           CONSTRAINT FK_Transactions_AccountID FOREIGN KEY (AccountID) REFERENCES Accounts(AccountID)
+           );
+
+      b.   
+           INSERT INTO Transactions (TransactionID, AccountID, TransactionAmount) VALUES (1, 999, 500.00);
+
+      c.  INSERT INTO Accounts (AccountID, MobileNumber, Balance) VALUES (101, '1234567890', 1000.00);
+          INSERT INTO Accounts (AccountID, MobileNumber, Balance) VALUES (102, '0987654321', 500.00);
+
+          INSERT INTO Transactions (TransactionID, AccountID, TransactionAmount) VALUES (1, 101, 200.00);
+          INSERT INTO Transactions (TransactionID, AccountID, TransactionAmount) VALUES (2, 102, -100.00);
+
+
+
+              
